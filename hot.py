@@ -22,6 +22,10 @@ def newton_score(temperature, hours):
         return temperature * pow(BASE, (-(COOLING_RATE) * hours))
     else:
         return temperature
+
+#Calc score to be fed into decay algs
+def pre_decay_score(popularity, grade):
+    return popularity*grade
     
 base = 1000
 elapsed = 36
@@ -33,3 +37,7 @@ print "hn_score: " + str(hn_score(base, elapsed))
 # newton_score: =IF(F2>24, C2*POWER($A$6,(-$A$3*F2)), C2)
 # hn_score: =IF(F2>24, C2/POWER(F2-23,$A$12), C2)
 # ^Note for the above that C2 = popularity * grade
+
+# Todo:
+# - keep tweaking pre_decay
+# - get attrs (views, likes, grade) from zumic posts

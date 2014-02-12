@@ -1,6 +1,6 @@
 <?php
 
-  add_filter( 'posts_orderby', 'order_by_multiple' );
+  add_filter( 'posts_orderby', 'order_by_date' );
 
   $args = array(
     'post_type' => array( 'post', 'news' ),
@@ -28,6 +28,7 @@
     ?>
 
     <div class="single-title"><?php echo $found_posts; ?><h3><?php the_title(); ?></h3></div></a>
+    <div class="date"><?php echo get_the_date(); ?></div>
   </div>
 
 <?php $i++; endwhile; ?>

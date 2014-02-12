@@ -27,3 +27,9 @@ base = 1000
 elapsed = 36
 print "newton_score: " + str(newton_score(base, elapsed))
 print "hn_score: " + str(hn_score(base, elapsed))
+
+
+# Excel fns:
+# newton_score: =IF(F2>24, C2*POWER($A$6,(-$A$3*F2)), C2)
+# hn_score: =IF(F2>24, C2/POWER(F2-23,$A$12), C2)
+# ^Note for the above that C2 = popularity * grade

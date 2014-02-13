@@ -41,3 +41,4 @@ print "hn_score: " + str(hn_score(base, elapsed))
 # Todo:
 # - keep tweaking pre_decay
 # - get attrs (views, likes, grade) from zumic posts
+# - use numpy, matplotlib to graph in python

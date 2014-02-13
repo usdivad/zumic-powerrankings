@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 
 
 #Parsing JSON data
-#http://zumic.com/?json=get_recent_posts&count=50
+#http://zumic.com/?json=get_recent_posts&count=100
 d_raw = open("./recent_posts.json").read()
 data = json.loads(d_raw)["posts"]
 post_titles = []

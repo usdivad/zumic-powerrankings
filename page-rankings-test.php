@@ -1,5 +1,5 @@
 <?php
-
+  //Init filter to get posts
   add_filter( 'posts_orderby', 'order_by_multiple' );
 
   $args = array(
@@ -39,6 +39,7 @@ function get_age() {
     <div class="date"><?php echo get_the_date(); ?></div>
     <div class="age">
       <?php
+        //Getting post age
         $cur_time = date('U');
         $post_time = get_post_time('U');
         $age_hours = ($cur_time - $post_time)/(60*60);

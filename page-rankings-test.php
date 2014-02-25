@@ -1,26 +1,3 @@
-<?php 
-  //Sorting from functions.php
-  add_action( 'pre_get_posts', 'change_sort_order' ); 
-  function change_sort_order(&$query){
-      if (isset($_POST['cs_action']) && $_POST['cs_action'] == 'custom_sort_order'){
-          global $wp;
-          if (isset($wp->query_vars["CU_Order"])){
-              $query->set( 'order', $wp->query_vars["CU_Order"] );
-          }
-      }
-  }
-
-
-  add_filter('query_vars', 'add_custom_order_query_vars');
-  function add_custom_order_query_vars($vars) {
-      // add CU_Order to the valid list of variables
-      $new_vars = array('CU_Order');
-      $vars = $new_vars + $vars;
-      return $vars;
-  }
-
-?>
-
 <?php
   /*
    *NEW decay filter

@@ -29,8 +29,7 @@
   function custom_decay_order($post) {
         //Getting post age
         $cur_time = date('U');
-        //$post_time = get_post_time('U');
-        $post_time = 
+        $post_time = get_post_time('U');
         $age_hours = ($cur_time - $post_time)/(60*60);
 
         //Getting order/grade attribute
@@ -43,10 +42,10 @@
         $grade = $post->menu_order;
 
         //TODO: Getting pageviews
-        $views = 100;
+        $views = 100; //const for now
 
         //Getting pre-decay score
-        $predecay = ($views * grade) / $max_order; 
+        $predecay = ($views * $grade) / $max_order; 
 
         //Setting score based on decay
         $gravity = 0.5;

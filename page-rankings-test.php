@@ -1,6 +1,85 @@
+<?php 
+  //Sorting from functions.php
+  add_action( 'pre_get_posts', 'change_sort_order' ); 
+  function change_sort_order(&$query){
+      if (isset($_POST['cs_action']) && $_POST['cs_action'] == 'custom_sort_order'){
+          global $wp;
+          if (isset($wp->query_vars["CU_Order"])){
+              $query->set( 'order', $wp->query_vars["CU_Order"] );
+          }
+      }
+  }
+
+
+  add_filter('query_vars', 'add_custom_order_query_vars');
+  function add_custom_order_query_vars($vars) {
+      // add CU_Order to the valid list of variables
+      $new_vars = array('CU_Order');
+      $vars = $new_vars + $vars;
+      return $vars;
+  }
+
+?>
+
 <?php
-  //Init filter to get posts
-  add_filter( 'posts_orderby', 'order_by_multiple' );
+  /*
+   *NEW decay filter
+   */
+  add_filter('posts_orderby', 'custom_decay_order');
+  function custom_decay_order($post) {
+        //Getting post age
+        $cur_time = date('U');
+        //$post_time = get_post_time('U');
+        $post_time = 
+        $age_hours = ($cur_time - $post_time)/(60*60);
+
+        //Getting order/grade attribute
+        //A = 430, F = 0
+        $max_order = 430; //A
+        $default_order = $max / 2;
+        if (empty($post->menu_order)) {
+          $post->menu_order = $default_order;
+        }
+        $grade = $post->menu_order;
+
+        //TODO: Getting pageviews
+        $views = 100;
+
+        //Getting pre-decay score
+        $predecay = ($views * grade) / $max_order; 
+
+        //Setting score based on decay
+        $gravity = 0.5;
+        $offset_hours = 24;
+
+        return hn_score($predecay, $age_hours, $gravity, $offset_hours);
+  }
+
+  //The two decay functions use the same syntax for passing in argument
+  function hn_score($score, $age, $gravity, $offset) {
+    if ($age >= $offset) {
+      return $score / pow($age-$offset, $gravity);
+    }
+    else {
+      return $score;
+    }
+  }
+
+  function newton_score($temperature, $hours, $cooling_rate, $offset) {
+    if ($hours >= $offset) {
+      return $temperature * exp(-$cooling_rate * $hours);
+    }
+    else {
+      return $temperature
+    }
+  }
+
+  /* 
+   * Init filter to get posts
+   * All the below works, just uncomment the add_filter and remove_filter
+   */
+  
+  //add_filter( 'posts_orderby', 'order_by_multiple' );
 
   $args = array(
     'post_type' => array( 'post', 'news' ),
@@ -9,7 +88,7 @@
 
   query_posts( $args );
 
-  remove_filter( 'posts_orderby', 'order_by_multiple' );
+  //remove_filter( 'posts_orderby', 'order_by_multiple' );
 ?>
 
 <?php
@@ -46,6 +125,9 @@ function get_age() {
         //$age = (strtotime(date('U')) - strtotime(get_post_time('U')))/60;
         //echo "Post age: ".$cur_time."-".$post_time."/60";
         echo "Post age: ".$age_hours." hours";
+
+        //Getting order/grade
+        //Getting pageviews
       ?>
   </div>
 
